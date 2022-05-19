@@ -1,0 +1,90 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+
+    .map {
+        height: 100%;
+        width: 80%;
+        flex: 1;
+    }
+
+    .slider {
+        width: 2px;
+        cursor: col-resize;
+        background-color: gray;
+    }
+
+    .requestsWrapper {
+        position: relative;
+        height: 100%;
+        width: 20%;
+        // resize: horizontal;
+        // overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    .requests {
+        table {
+            width: min-content;
+            position: relative;
+        }
+
+        td {
+            white-space: nowrap;
+        }
+
+        .ant-table-selection-column {
+            opacity: 0;
+            width: 100%;
+            position: absolute;
+            z-index: 5;
+            left: 0;
+            top: 0;
+        }
+
+        .ant-table-row-level-0 {
+            height: 65px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        label.ant-radio-wrapper {
+            width: 100%;
+            height: 100%;
+            background-color: red;
+            height: 65px;
+            box-sizing: border-box;
+            top: -16px;
+        }
+    }
+
+    .select {
+        position: relative;
+        z-index: 6;
+    }
+
+    .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        &__wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        &__background {
+            background-color: black;
+            opacity: 0.4;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
