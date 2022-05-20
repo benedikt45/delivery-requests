@@ -1,4 +1,4 @@
-import { DeliveryRequestsConnected } from 'components/DeliveryRequests/DeliveryRequestsConnected';
+import { DeliveryRequestsConnected } from 'components/DeliveryRequests';
 import React, { useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
 import { appStore } from 'store/appStore';
