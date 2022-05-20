@@ -36,3 +36,20 @@ export const render = (points, changeRequest, setPolylineIsLoading, fieldName) =
     );
 
 export const getMaxPageSize = (recordHeight) => Math.floor(window.innerHeight / recordHeight) - 2;
+
+export const getColumns = (points, changeRequest, setTableIsLoading) => [
+    {
+        title: 'Заявка',
+        dataIndex: 'name',
+    },
+    {
+        title: 'Погрузка',
+        dataIndex: 'start',
+        render: render(points, changeRequest, setTableIsLoading, 'startPointId'),
+    },
+    {
+        title: 'Разгрузка',
+        dataIndex: 'end',
+        render: render(points, changeRequest, setTableIsLoading, 'endPointId'),
+    },
+];

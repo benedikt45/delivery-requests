@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { getData, getMaxPageSize, render } from './utils';
+import { getColumns, getData, getMaxPageSize } from './utils';
 
 const recordHeight = 65;
 
@@ -10,35 +10,25 @@ export const DeliveryRequests = ({
     changeRequest,
     renderPoints,
     refs,
+    loadData,
 }) => {
-    const [polylineIsLoading, setPolylineIsLoading] = useState(false);
+    const [tableIsLoading, setTableIsLoading] = useState(false);
     const [pageSize, setPageSize] = useState(getMaxPageSize(recordHeight));
 
     useEffect(() => {
+        setTableIsLoading(true);
+        loadData(() => setTableIsLoading(false));
+
         const resizeListener = () => {
             setPageSize(getMaxPageSize(recordHeight));
         };
         window.addEventListener('resize', resizeListener);
+
         return () => window.removeEventListener('resize', resizeListener);
     }, []);
 
-    const columns = [
-        {
-            title: 'Заявка',
-            dataIndex: 'name',
-        },
-        {
-            title: 'Погрузка',
-            dataIndex: 'start',
-            render: render(points, changeRequest, setPolylineIsLoading, 'startPointId'),
-        },
-        {
-            title: 'Разгрузка',
-            dataIndex: 'end',
-            render: render(points, changeRequest, setPolylineIsLoading, 'endPointId'),
-        },
-    ];
     const dataSource = getData(deliveryRequests, points);
+    const columns = getColumns(points, changeRequest, setTableIsLoading);
 
     return (
         <div className='requestsWrapper' ref={refs}>
@@ -48,16 +38,16 @@ export const DeliveryRequests = ({
                 rowSelection={{
                     type: 'radio',
                     onChange: (_, selectedRows) => {
-                        setPolylineIsLoading(true);
+                        setTableIsLoading(true);
                         renderPoints({
                             deliveryRequestId: selectedRows[0].key,
-                            callback: () => setPolylineIsLoading(false),
+                            callback: () => setTableIsLoading(false),
                         });
                     },
                 }}
                 pagination={{ position: ['none', 'bottomCenter'], pageSize }}
                 className='requests'
-                loading={polylineIsLoading}
+                loading={tableIsLoading}
             />
         </div>
     );

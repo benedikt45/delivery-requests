@@ -26,17 +26,14 @@
     }
 
     .requests {
+        width: min-content;
+
         table {
-            width: min-content;
             position: relative;
         }
 
         td {
             white-space: nowrap;
-        }
-
-        .ant-spin-container {
-            width: min-content;
         }
 
         .ant-table-selection-column {
