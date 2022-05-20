@@ -1,6 +1,6 @@
+import { changeDeliveryRequestSagaAction } from 'actions/saga/changeDeliveryRequestSagaAction';
+import { renderPointsSagaAction } from 'actions/saga/renderPointsSagaAction';
 import { connect } from 'react-redux';
-import { changeDeliveryRequestThunkAction } from 'thunks/changeDeliveryRequestThunkAction';
-import { renderPointsThunkAction } from 'thunks/renderPointsThunkAction';
 import { DeliveryRequests } from './DeliveryRequests';
 
 const mapToStateProps = (state) => ({
@@ -9,8 +9,8 @@ const mapToStateProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    changeRequest: (fields) => dispatch(changeDeliveryRequestThunkAction(fields)),
-    renderPoints: (deliveryRequestId) => dispatch(renderPointsThunkAction(deliveryRequestId)),
+    changeRequest: (data) => dispatch(changeDeliveryRequestSagaAction(data)),
+    renderPoints: (data) => dispatch(renderPointsSagaAction(data)),
 });
 
 export const DeliveryRequestsConnected = connect(mapToStateProps, mapDispatchToProps, null, {

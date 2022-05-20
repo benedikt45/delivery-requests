@@ -19,10 +19,12 @@ export const render = (points, changeRequest, setPolylineIsLoading, fieldName) =
     (
         <Select
             defaultValue={point}
-            onChange={async (value) => {
+            onChange={(value) => {
                 setPolylineIsLoading(true);
-                await changeRequest({ [fieldName]: value, id: record.key });
-                setPolylineIsLoading(false);
+                changeRequest({
+                    fields: { [fieldName]: value, id: record.key },
+                    callback: () => setPolylineIsLoading(false),
+                });
             }}
             className='select'>
             {points.map((point) => (
@@ -32,3 +34,5 @@ export const render = (points, changeRequest, setPolylineIsLoading, fieldName) =
             ))}
         </Select>
     );
+
+export const getMaxPageSize = (recordHeight) => Math.floor(window.innerHeight / recordHeight) - 2;

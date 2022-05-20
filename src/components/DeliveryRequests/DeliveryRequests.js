@@ -1,6 +1,8 @@
 import { Table } from 'antd';
-import React, { useState } from 'react';
-import { getData, render } from './utils';
+import React, { useEffect, useState } from 'react';
+import { getData, getMaxPageSize, render } from './utils';
+
+const recordHeight = 65;
 
 export const DeliveryRequests = ({
     deliveryRequests,
@@ -10,6 +12,15 @@ export const DeliveryRequests = ({
     refs,
 }) => {
     const [polylineIsLoading, setPolylineIsLoading] = useState(false);
+    const [pageSize, setPageSize] = useState(getMaxPageSize(recordHeight));
+
+    useEffect(() => {
+        const resizeListener = () => {
+            setPageSize(getMaxPageSize(recordHeight));
+        };
+        window.addEventListener('resize', resizeListener);
+        return () => window.removeEventListener('resize', resizeListener);
+    }, []);
 
     const columns = [
         {
@@ -36,13 +47,15 @@ export const DeliveryRequests = ({
                 columns={columns}
                 rowSelection={{
                     type: 'radio',
-                    onChange: async (_, selectedRows) => {
+                    onChange: (_, selectedRows) => {
                         setPolylineIsLoading(true);
-                        await renderPoints(selectedRows[0].key);
-                        setPolylineIsLoading(false);
+                        renderPoints({
+                            deliveryRequestId: selectedRows[0].key,
+                            callback: () => setPolylineIsLoading(false),
+                        });
                     },
                 }}
-                pagination={{ position: ['none', 'none'] }}
+                pagination={{ position: ['none', 'bottomCenter'], pageSize }}
                 className='requests'
                 loading={polylineIsLoading}
             />
